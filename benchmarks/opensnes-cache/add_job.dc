@@ -1,0 +1,15 @@
+// Port of OpenSNES gsu_job.sfx, entry gsu_start (40 bytes hand-written):
+// 200 x 3000 wrapping additions of 7, then the sum, the outer count left and
+// a marker. The reference keeps the sum in R0 and its inner loop is ADD #7
+// under LOOP.
+void main() {
+    word sum = 0;
+    word outer = 200;
+    while (outer > 0) {
+        for (word n = 3000; n > 0; n = n - 1) { sum += 7; }
+        outer -= 1;
+    }
+    *(word*)0x0010 = sum;
+    *(word*)0x0012 = outer;
+    *(unsigned word*)0x0014 = 0xC0DE;
+}

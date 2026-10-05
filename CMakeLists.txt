@@ -225,6 +225,14 @@ if(BUILD_TESTING AND NOT DISCO_DOS_BUILD)
     set_tests_properties(gsu_execution_model PROPERTIES LABELS "backend;gsu;unit")
     include(tests/toolchain-cases.cmake)
 
+    # Reports sizes against the 512-byte GSU cache; only wrong results fail.
+    add_test(NAME opensnes_cache_benchmark
+        COMMAND ${CMAKE_COMMAND}
+            -DDISCO_TOOLS_DIR=$<TARGET_FILE_DIR:discc>
+            -DOUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/test-output/opensnes-cache
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/benchmarks/opensnes-cache/report.cmake)
+    set_tests_properties(opensnes_cache_benchmark PROPERTIES LABELS "benchmark;gsu")
+
     if(DISCO_TEST_SNES_INTEGRATION)
         find_program(DISCO_WLA_65816 NAMES wla-65816)
         find_program(DISCO_WLALINK NAMES wlalink)

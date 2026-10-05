@@ -1,0 +1,11 @@
+// Port of OpenSNES gsu_job.sfx, entry mul_job (20 bytes hand-written):
+// a x b by repeated addition. The reference receives a and b in R1/R2,
+// written by the host before the start; DiscoC has no register arguments at
+// an entry point, so this port reads them from RAM.
+void main() {
+    word a = *(word*)0x0020;
+    word b = *(word*)0x0022;
+    word product = 0;
+    while (b > 0) { product += a; b -= 1; }
+    *(word*)0x0016 = product;
+}

@@ -1,0 +1,9 @@
+// Port of OpenSNES gsu_job.sfx, entry rom_job (29 bytes hand-written):
+// combine two bytes of a table stored with the program. It reads ROM, so it
+// cannot run from the code cache; it is here for size only.
+rom unsigned byte table[2] = {0xA5, 0x3C};
+void main() {
+    unsigned word low = (unsigned word)table[0];
+    unsigned word high = (unsigned word)table[1];
+    *(unsigned word*)0x0018 = low | (high << 8);
+}

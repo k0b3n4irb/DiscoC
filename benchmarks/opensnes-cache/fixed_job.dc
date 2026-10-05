@@ -1,0 +1,12 @@
+// Port of OpenSNES gsu_hello.sfx (57 bytes hand-written): two byte stores, a
+// word store and two 4.12 fixed-point products. The reference uses FMULT and
+// four doublings; FMULT is not reachable from DiscoC, so this port drops six
+// fraction bits from each operand before a 16-bit multiply.
+word mul_4_12(word left, word right) { return (left >> 6) * (right >> 6); }
+void main() {
+    *(unsigned byte*)0x0030 = 0x42;
+    *(unsigned byte*)0x0031 = 0x55;
+    *(unsigned word*)0x0032 = 0xBEEF;
+    *(word*)0x0034 = mul_4_12(0x2000, 0x2000);
+    *(word*)0x0036 = mul_4_12(0x1800, 0x3000);
+}
